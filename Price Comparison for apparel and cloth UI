@@ -1,0 +1,23 @@
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+# Mock data (initially empty)
+movies = []
+
+# Controller - Route for rendering the UI
+@app.route('/')
+def index():
+    return render_template('index.html', movies=movies)
+
+# Controller - Route for adding a movie
+@app.route('/add_movie', methods=['POST'])
+def add_movie():
+    title = request.form['title']
+    director = request.form['director']
+    year = request.form['year']
+    movies.append({'title': title, 'director': director, 'year': year})
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
